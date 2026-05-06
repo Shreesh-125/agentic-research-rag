@@ -1,13 +1,13 @@
-from langchain_ollama import ChatOllama
+from langchain_groq import ChatGroq
 from langchain_core.messages import HumanMessage, SystemMessage
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 
-llm = ChatOllama(
+llm = ChatGroq(
     model=os.getenv("LLM_MODEL"),
-    base_url=os.getenv("OLLAMA_BASE_URL"),
+    api_key=os.getenv("GROQ_API_KEY"),
     temperature=0.1
 )
 
@@ -19,8 +19,7 @@ def analyst_agent(state: dict) -> dict:
     for i, article in enumerate(raw_results):
         articles_text += f"""
 Article {i+1}: {article['title']}
-URL: {article['url']}
-Content: {article['content']}
+Content: {article['content'][:300]}
 ---
 """
 

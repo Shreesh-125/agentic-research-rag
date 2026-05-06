@@ -1,4 +1,4 @@
-from langchain_ollama import ChatOllama
+from langchain_groq import ChatGroq
 from langchain_core.messages import HumanMessage, SystemMessage
 from dotenv import load_dotenv
 import os
@@ -6,9 +6,9 @@ import json
 
 load_dotenv()
 
-llm = ChatOllama(
+llm = ChatGroq(
     model=os.getenv("LLM_MODEL"),
-    base_url=os.getenv("OLLAMA_BASE_URL"),
+    api_key=os.getenv("GROQ_API_KEY"),
     temperature=0.3
 )
 
@@ -17,8 +17,8 @@ def planner_agent(state: dict) -> dict:
 
     messages = [
         SystemMessage(content="""You are a research planner. 
-Your job is to break down a research question into exactly 3 focused search queries.
-You must respond with ONLY a JSON array of 3 strings. No explanation. No extra text.
+Your job is to break down a research question into exactly 2 focused search queries.
+You must respond with ONLY a JSON array of 2 strings. No explanation. No extra text.
 Example: ["query one", "query two"]"""),
         HumanMessage(content=f"Research question: {question}")
     ]
@@ -39,8 +39,6 @@ Example: ["query one", "query two"]"""),
         except Exception:
             lines = [l.strip().strip('"-,') for l in raw.split("\n") if l.strip()]
             search_queries = [l for l in lines if len(l) > 5][:2]
-    
-
 
     return {
         **state,
