@@ -5,155 +5,221 @@ API_URL = "http://api:8000/research"
 
 st.set_page_config(
     page_title="DeepResearch AI",
-    page_icon="🧠",
+    page_icon="🔎",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
-# ---------- Custom Styling ----------
+# -----------------------------
+# Custom CSS
+# -----------------------------
 st.markdown("""
 <style>
-    .main-title {
-        font-size: 2.8rem;
+
+    /* Main page */
+    .block-container {
+        padding-top: 2.5rem;
+        padding-bottom: 3rem;
+        max-width: 1200px;
+    }
+
+    /* Header */
+    .title {
+        font-size: 2.7rem;
         font-weight: 700;
+        letter-spacing: -1px;
         margin-bottom: 0.2rem;
     }
 
     .subtitle {
-        color: #8b949e;
         font-size: 1.05rem;
-        margin-bottom: 1.5rem;
+        color: #8b949e;
+        margin-bottom: 2rem;
     }
 
+    /* Agent cards */
     .agent-card {
-        padding: 14px;
-        border-radius: 12px;
-        background-color: #161b22;
         border: 1px solid #30363d;
+        border-radius: 10px;
+        padding: 18px 14px;
         text-align: center;
-        min-height: 100px;
-    }
-
-    .agent-icon {
-        font-size: 1.8rem;
+        background: #161b22;
+        min-height: 120px;
     }
 
     .agent-name {
+        font-size: 1rem;
         font-weight: 600;
-        margin-top: 5px;
+        margin-bottom: 7px;
     }
 
-    .agent-desc {
-        font-size: 0.78rem;
+    .agent-description {
+        font-size: 0.8rem;
         color: #8b949e;
+        line-height: 1.4;
     }
 
+    /* Source cards */
     .source-card {
-        padding: 10px 14px;
-        border-left: 3px solid #58a6ff;
-        margin-bottom: 8px;
-        background-color: #161b22;
-        border-radius: 5px;
+        border: 1px solid #30363d;
+        border-radius: 8px;
+        padding: 13px 16px;
+        margin-bottom: 10px;
+        background: #161b22;
     }
+
+    .source-title {
+        font-weight: 600;
+        font-size: 0.95rem;
+    }
+
+    .source-url {
+        font-size: 0.8rem;
+        color: #8b949e;
+        margin-top: 4px;
+    }
+
+    /* Section headers */
+    .section-title {
+        font-size: 1.35rem;
+        font-weight: 650;
+        margin-top: 1rem;
+        margin-bottom: 1rem;
+    }
+
+    /* Sidebar */
+    section[data-testid="stSidebar"] {
+        border-right: 1px solid #30363d;
+    }
+
+    /* Text area */
+    textarea {
+        font-size: 1rem !important;
+    }
+
+    /* Buttons */
+    .stButton > button {
+        height: 45px;
+        font-weight: 600;
+        border-radius: 8px;
+    }
+
 </style>
 """, unsafe_allow_html=True)
 
 
-# ---------- Header ----------
+# -----------------------------
+# Header
+# -----------------------------
 st.markdown(
-    '<div class="main-title">🧠 DeepResearch AI</div>',
+    '<div class="title">DeepResearch AI</div>',
     unsafe_allow_html=True
 )
 
 st.markdown(
     '<div class="subtitle">'
-    'Autonomous multi-agent research powered by LangGraph, Ollama & Tavily'
+    'Autonomous multi-agent research system for web-based research and analysis'
     '</div>',
     unsafe_allow_html=True
 )
 
 
-# ---------- Sidebar ----------
+# -----------------------------
+# Sidebar
+# -----------------------------
 with st.sidebar:
 
-    st.header("⚙️ System")
+    st.markdown("## System")
 
     st.markdown("""
-    **LLM**
+    **Language Model**
 
-    `Phi-3 Mini`
+    Phi-3 Mini via Ollama
 
-    **Inference**
+    **Agent Orchestration**
 
-    `Ollama`
+    LangGraph
 
-    **Orchestration**
+    **Web Research**
 
-    `LangGraph`
-
-    **Web Search**
-
-    `Tavily`
+    Tavily Search
 
     **Backend**
 
-    `FastAPI`
+    FastAPI
 
-    **Frontend**
+    **Interface**
 
-    `Streamlit`
+    Streamlit
     """)
 
     st.divider()
 
-    st.header("🔄 Agent Pipeline")
+    st.markdown("## Architecture")
 
     st.markdown("""
-    🧠 **Planner**  
-    Decomposes the research question
+    **Planner**
 
-    ↓
+    Breaks the research question into focused search queries.
 
-    🔍 **Researcher**  
-    Searches the web
+    **Researcher**
 
-    ↓
+    Searches the web and collects relevant sources.
 
-    📊 **Analyst**  
-    Extracts relevant information
+    **Analyst**
 
-    ↓
+    Extracts and synthesizes important information.
 
-    ✍️ **Writer**  
-    Synthesizes the final report
+    **Writer**
+
+    Produces the final research report.
     """)
 
     st.divider()
 
-    st.caption("Local LLM inference • Dockerized deployment")
+    st.caption("Local LLM inference with Dockerized deployment")
 
 
-# ---------- Agent Pipeline ----------
-st.subheader("🤖 Multi-Agent Workflow")
+# -----------------------------
+# Agent Pipeline
+# -----------------------------
+st.markdown(
+    '<div class="section-title">Multi-Agent Workflow</div>',
+    unsafe_allow_html=True
+)
 
-cols = st.columns(4)
+columns = st.columns(4)
 
 agents = [
-    ("🧠", "Planner", "Task decomposition"),
-    ("🔍", "Researcher", "Web retrieval"),
-    ("📊", "Analyst", "Evidence synthesis"),
-    ("✍️", "Writer", "Report generation"),
+    (
+        "Planner",
+        "Task decomposition"
+    ),
+    (
+        "Researcher",
+        "Web retrieval"
+    ),
+    (
+        "Analyst",
+        "Evidence synthesis"
+    ),
+    (
+        "Writer",
+        "Report generation"
+    )
 ]
 
-for col, (icon, name, description) in zip(cols, agents):
+for column, (name, description) in zip(columns, agents):
 
-    with col:
+    with column:
+
         st.markdown(
             f"""
             <div class="agent-card">
-                <div class="agent-icon">{icon}</div>
                 <div class="agent-name">{name}</div>
-                <div class="agent-desc">{description}</div>
+                <div class="agent-description">
+                    {description}
+                </div>
             </div>
             """,
             unsafe_allow_html=True
@@ -163,28 +229,34 @@ for col, (icon, name, description) in zip(cols, agents):
 st.divider()
 
 
-# ---------- Research Input ----------
-st.subheader("🔎 Start a Research Task")
-
-question = st.text_area(
-    "Research question",
-    placeholder=(
-        "Example: How are small language models being optimized "
-        "for edge AI applications?"
-    ),
-    height=100,
-    key="question_input"
+# -----------------------------
+# Research Input
+# -----------------------------
+st.markdown(
+    '<div class="section-title">🔎 Research</div>',
+    unsafe_allow_html=True
 )
 
-research = st.button(
-    "🚀 Start Autonomous Research",
+question = st.text_area(
+    "Research Question",
+    placeholder=(
+        "Enter a question you want the research agents to investigate..."
+    ),
+    height=110,
+    label_visibility="visible"
+)
+
+start_research = st.button(
+    "Start Research",
     type="primary",
     use_container_width=True
 )
 
 
-# ---------- Research Execution ----------
-if research:
+# -----------------------------
+# Research Execution
+# -----------------------------
+if start_research:
 
     if not question.strip():
 
@@ -193,14 +265,14 @@ if research:
     else:
 
         with st.status(
-            "🤖 Research agents are working...",
+            "Research in progress...",
             expanded=True
         ) as status:
 
-            st.write("🧠 Planner → decomposing research question...")
-            st.write("🔍 Researcher → searching the web...")
-            st.write("📊 Analyst → synthesizing evidence...")
-            st.write("✍️ Writer → generating final report...")
+            st.write("Planner is decomposing the research question.")
+            st.write("Researcher is searching the web.")
+            st.write("Analyst is synthesizing the retrieved information.")
+            st.write("Writer is generating the final report.")
 
             try:
 
@@ -215,47 +287,65 @@ if research:
                     data = response.json()
 
                     status.update(
-                        label="✅ Research completed successfully",
+                        label="Research completed",
                         state="complete",
                         expanded=False
                     )
 
-                    # ---------- Report ----------
+                    # -----------------------------
+                    # Final Report
+                    # -----------------------------
                     st.divider()
 
-                    st.subheader("📄 Research Report")
+                    st.markdown(
+                        '<div class="section-title">Research Report</div>',
+                        unsafe_allow_html=True
+                    )
 
-                    st.markdown(data.get("final_report", ""))
+                    final_report = data.get("final_report", "")
+
+                    st.markdown(final_report)
 
 
-                    # ---------- Sources ----------
+                    # -----------------------------
+                    # Sources
+                    # -----------------------------
                     sources = data.get("sources", [])
 
                     if sources:
 
                         st.divider()
 
-                        st.subheader(
-                            f"📚 Sources ({len(sources)})"
+                        st.markdown(
+                            f'<div class="section-title">'
+                            f'Sources ({len(sources)})'
+                            f'</div>',
+                            unsafe_allow_html=True
                         )
 
-                        for i, source in enumerate(sources):
+                        for index, source in enumerate(sources):
 
                             title = source.get(
                                 "title",
                                 "Untitled source"
                             )
 
-                            url = source.get("url", "#")
+                            url = source.get(
+                                "url",
+                                "#"
+                            )
 
                             st.markdown(
                                 f"""
                                 <div class="source-card">
-                                    <strong>{i + 1}. {title}</strong>
-                                    <br>
-                                    <a href="{url}" target="_blank">
-                                        Open source →
-                                    </a>
+                                    <div class="source-title">
+                                        {index + 1}. {title}
+                                    </div>
+                                    <div class="source-url">
+                                        <a href="{url}" target="_blank">
+                                            Open source
+                                        </a>
+                                    </div>
                                 </div>
                                 """,
                                 unsafe_allow_html=True
@@ -264,7 +354,7 @@ if research:
                 else:
 
                     status.update(
-                        label="❌ Research failed",
+                        label="Research failed",
                         state="error"
                     )
 
@@ -272,16 +362,14 @@ if research:
                         f"API returned HTTP {response.status_code}"
                     )
 
-                    try:
+                    if response.text:
                         st.code(response.text)
-                    except Exception:
-                        pass
 
 
             except requests.exceptions.Timeout:
 
                 status.update(
-                    label="⏱️ Research timed out",
+                    label="Research timed out",
                     state="error"
                 )
 
@@ -294,7 +382,7 @@ if research:
             except requests.exceptions.ConnectionError:
 
                 status.update(
-                    label="🔌 Backend unavailable",
+                    label="Backend unavailable",
                     state="error"
                 )
 
@@ -304,11 +392,11 @@ if research:
                 )
 
 
-            except Exception as e:
+            except Exception as error:
 
                 status.update(
-                    label="❌ Unexpected error",
+                    label="Unexpected error",
                     state="error"
                 )
 
-                st.error(str(e))
+                st.error(str(error))
