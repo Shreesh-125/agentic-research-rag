@@ -1,4 +1,4 @@
-from langchain_groq import ChatGroq
+from langchain_ollama import ChatOllama
 from langchain_core.messages import HumanMessage, SystemMessage
 from dotenv import load_dotenv
 import os
@@ -6,9 +6,9 @@ import json
 
 load_dotenv()
 
-llm = ChatGroq(
+llm = ChatOllama(
     model=os.getenv("LLM_MODEL"),
-    api_key=os.getenv("GROQ_API_KEY"),
+    base_url=os.getenv("OLLAMA_BASE_URL"),
     temperature=0.3
 )
 

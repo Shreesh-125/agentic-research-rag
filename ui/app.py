@@ -1,7 +1,7 @@
 import streamlit as st
 import requests
 
-API_URL = "https://multi-agent-researcher-production-abe8.up.railway.app/research"
+API_URL = "http://api:8000/research"
 
 st.set_page_config(
     page_title="Multi-Agent Research Assistant",
